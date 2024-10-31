@@ -7,6 +7,28 @@
 </head>
 <body>
     <h1>this is a app to give you a workout</h1>
+    <input type="text" placeholder="Enter your workout preferences" id="userInput">
+    <button onclick="sendMessage()">Send</button>
     
+    <div id="response"></div>
+
+    <script>
+    function sendMessage() {
+        const userInput = document.getElementById('userInput').value;
+        
+        fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: userInput })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('response').innerText = data.response;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    </script>
 </body>
 </html>

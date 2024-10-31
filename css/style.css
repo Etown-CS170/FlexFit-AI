@@ -1,0 +1,92 @@
+a.navbar,
+a.navbar:visited,
+a.navbar:active {
+    text-decoration: none;
+    color:rgb(33, 163, 76);
+    font-size: 20px;
+    text-align: center;
+}
+
+a.navbar:hover {
+    text-decoration: underline;
+    color:black;
+}
+
+table.navbar{
+    background-color:#3f32d1;
+    width:100%;
+    text-align: center;
+}
+td.navbar{
+    
+    text-align: center;
+}
+button.navbar {
+    /*position: fixed;
+    margin: auto;
+    left: -850;
+    right: 0;
+    top: -450;
+    bottom: 0;*/
+    float:left;
+    width: 100px;
+    height: 30px;
+    color:white;
+    background-color: rgb(126, 61, 161);
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+
+  }
+  
+
+
+.statstable table,th,td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+tr:nth-child(even) {
+    background-color: #F2F2F2;
+   }
+.center{
+    text-align: center; 
+}
+html,body{
+    width: 100%;
+    min-height: 100%;
+    margin-bottom:0;
+    margin-left:0;
+    margin-top:0;
+    margin-right:0;
+    padding: 0; /*space from content and border*/
+
+    overflow:hidden;
+    display:block;
+    box-sizing: border-box;
+    overflow: auto;
+    background-color: rgb(255, 169, 169);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("http://francoh.etowndb.com/baseball/images/baseballwalpaper.png");
+    background-position: -55px 0;
+    background-repeat: repeat;
+    background-blend-mode: ;
+    text-align: center;
+    
+}
+
+h2{
+    color:rgb(63, 255, 137)
+}
+a{
+    color: #002aff;
+}
+a.hover{
+    color:rgb(129, 129, 182);
+}
+a.visited{
+    color:rgb(180, 255, 49);
+}
+
+
+
