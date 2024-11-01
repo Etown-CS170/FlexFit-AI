@@ -1,12 +1,23 @@
-#add the basics for chating with the ai through the web interface
+from flask import Flask, render_template, request, jsonify, url_for
+import requests
 
-from flask import Flask, render_template, request, jsonify
-import openai
+app = Flask(__name__, static_url_path='/static')
 
-app = Flask(__name__)
-
-# Configure OpenAI API (you'll need to set your API key)
-# openai.api_key = 'your-api-key-here'
+def get_ai_response(message):
+    url = "http://localhost:1234/v1/chat/completions"
+    
+    data = {
+        "messages": [{"role": "user", "content": message}],
+        "temperature": 0.7,
+        "max_tokens": 2000,
+    }
+    
+    response = requests.post(
+        url, 
+        headers={"Content-Type": "application/json"}, 
+        json=data
+    )
+    return response.json()['choices'][0]['message']['content']
 
 @app.route('/')
 def home():
@@ -14,23 +25,9 @@ def home():
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    user_message = request.json.get('message', '')
-    
-    try:
-        # Call OpenAI API
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a helpful fitness assistant."},
-                {"role": "user", "content": user_message}
-            ]
-        )
-        
-        ai_response = response.choices[0].message.content
-        return jsonify({"response": ai_response})
-    
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    message = request.json['message']
+    response = get_ai_response(message)
+    return jsonify({'response': response})
 
 if __name__ == '__main__':
     app.run(debug=True)
