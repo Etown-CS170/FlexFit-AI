@@ -8,3 +8,8 @@ pip install flask requests
 start the lm studio ai llama on port 1234
 
 then  run: python aichatbot.py
+
+
+go to 
+   - http://localhost:5000
+
