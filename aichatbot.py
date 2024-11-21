@@ -31,3 +31,8 @@ def chat():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+#add drop down windows
+#add other formats to download
+#fix the whole thing lol

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexFit AI</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h1>FlexFit AI Workout Generator</h1>
+    
+    <div class="intensity-container">
+        <button id="low-intensity" class="intensity-button">Low Intensity</button>
+        <button id="medium-intensity" class="intensity-button">Medium Intensity</button>
+        <button id="high-intensity" class="intensity-button">High Intensity</button>
+    </div>
+    
+    <div class="input-container">
+        <input 
+            type="text" 
+            placeholder="Example: Create a workout for building muscle, 3 days per week" 
+            id="userInput"
+        >
+        <button id="send-button">Generate Workout</button>
+    </div>
+    
+    <div id="response"></div>
+    <button id="download-button" style="display: none;">Download Response</button>
+
+    <script src="app.js"></script>
+</body>
+</html>
