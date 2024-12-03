@@ -16,15 +16,24 @@
         <button id="high-intensity" class="intensity-button">High Intensity</button>
     </div>
     
-    <div class="input-container">
-        <input 
-            type="text" 
+    <div class="input-container"> <!--ai changed this to a textarea rather then input--> 
+        <textarea 
             placeholder="Example: Create a workout for building muscle, 3 days per week" 
-            id="userInput"
-        >
+            id="userInput" 
+            style="max-width: 200px; width: 100%; height: 50px; resize: vertical; overflow: auto;"></textarea>
         <button id="send-button">Generate Workout</button>
     </div>
     
+    <!-- <div class="input-container">
+        <input 
+            type="text" 
+            placeholder="Example: Create a workout for building muscle, 3 days per week" 
+            id="userInput" 
+            style="max-width: 200px; width: 100%; height: 50px; resize: vertical; overflow: auto;" />
+        <button id="send-button">Generate Workout</button>
+    </div> -->
+
+
     <div id="response"></div>
     <button id="download-button" style="display: none;">Download Response</button>
 

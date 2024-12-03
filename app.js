@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are a workout trainer, based on how intense the user specifies, generate workout plans. DO not use markdown format when generating responses'
+                        content: 'Please provide specific suggestions for improvement while maintaining a professional tone. do not mention that you are professional tone. You are a workout trainer, based on how intense the user specifies, generate workout plans. use markdown format when generating responses, IF default medium is the intensity, mention that it.'
                     },
                     {
                         role: 'user',
@@ -82,17 +82,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function cleanMarkdown(text) {
-        // Simple regex to remove Markdown formatting
-        return text
-            .replace(/(\*\*|__)(.*?)\1/g, '$2') // Remove bold
-            .replace(/(\*|_)(.*?)\1/g, '$2') // Remove italic
-            .replace(/`(.*?)`/g, '$1') // Remove inline code
-            .replace(/~~(.*?)~~/g, '$1') // Remove strikethrough
+    // Simple Markdown to HTML converter
+    function markdownToHtml(markdown) {// AI made the conversion 
+        return markdown
+            .replace(/(\*\*|__)(.*?)\1/g, '<strong>$2</strong>') // Bold
+            .replace(/(\*|_)(.*?)\1/g, '<em>$2</em>') // Italic
+            .replace(/`(.*?)`/g, '<code>$1</code>') // Inline code
+            .replace(/~~(.*?)~~/g, '<del>$1</del>') // Strikethrough
             .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
             .replace(/\[.*?\]\(.*?\)/g, '') // Remove links
-            .replace(/#{1,6}\s+/g, '') // Remove headers
-            .replace(/\n/g, '\n'); // Keep new lines
+            .replace(/#{1,6}\s+(.*)/g, (match, p1) => `<h${match.length}>${p1}</h${match.length}>`) // Headers
+            .replace(/\n/g, '<br>'); // New lines to <br>
     }
 
     sendButton.addEventListener('click', async function() {
@@ -106,15 +106,16 @@ document.addEventListener('DOMContentLoaded', function() {
         conversationHistory.push(userMessage); // Add user message to history
 
         // Construct the prompt from the conversation history
-        const prompt = conversationHistory.join('\n') + '\n\nPlease provide specific suggestions for improvement while maintaining a professional tone.';
+        const prompt = conversationHistory.join('\n') + '\n\nPlease provide a workout schedule without asking if the workout is good. You are a workout trainer, based on how intense the user specifies, generate workout plans. Use markdown format when generating responses and display the schedule in a grid layout or a nice table. IF default medium is the intensity, mention that it.';
 
         const aiResponse = await generateAIResponse(prompt);
         
         // Add AI response to conversation history
         conversationHistory.push(aiResponse);
         
-        // Format the response for better readability
-        const formattedResponse = `<h2>Generated Workout Plan</h2><p>${aiResponse.replace(/\n/g, '</p><p>')}</p>`;
+        // Convert Markdown to HTML for display
+        const formattedResponse = `<h2>Generated Workout Plan</h2>
+        <div>${markdownToHtml(aiResponse)}</div>`; // Convert Markdown to HTML using the custom function
         
         resumePreview.innerHTML = formattedResponse; // Use innerHTML to set formatted response
         
@@ -127,11 +128,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     downloadButton.addEventListener('click', function() {
         const responseText = downloadButton.dataset.response;
-        const cleanedText = cleanMarkdown(responseText); // Clean the response text
-
+        const cleanedText = responseText; // You can keep this as is or clean it if needed
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        doc.text(cleanedText, 10, 10); // 10, 10 is the x, y position in the PDF
+        
+        // Set font size for better readability
+        doc.setFontSize(12); // Adjust font size as needed
+        doc.text(cleanedText, 10, 10, { maxWidth: 190 }); // Set maxWidth to wrap text
         doc.save('ai_response.pdf'); // Name of the downloaded PDF file
     });
 });
