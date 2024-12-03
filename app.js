@@ -128,13 +128,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     downloadButton.addEventListener('click', function() {
         const responseText = downloadButton.dataset.response;
-        const cleanedText = responseText; // You can keep this as is or clean it if needed
+        //const cleanedText = responseText; 
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         
+        
         // Set font size for better readability
         doc.setFontSize(12); // Adjust font size as needed
-        doc.text(cleanedText, 10, 10, { maxWidth: 190 }); // Set maxWidth to wrap text
+        doc.text(responseText, 10, 10, { maxWidth: 190 }); // Set maxWidth to wrap text
         doc.save('ai_response.pdf'); // Name of the downloaded PDF file
     });
 });
