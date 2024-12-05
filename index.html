@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlexFit AI</title>
     <link rel="stylesheet" href="static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.4/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <h1>FlexFit AI Workout Generator</h1>
+    <h3>FlexFit AI Workout Generator</h3>
     
     <div class="intensity-container">
         <button id="low-intensity" class="intensity-button">Low Intensity</button>
@@ -23,19 +26,8 @@
             style="max-width: 200px; width: 100%; height: 50px; resize: vertical; overflow: auto;"></textarea>
         <button id="send-button">Generate Workout</button>
     </div>
-    
-    <!-- <div class="input-container">
-        <input 
-            type="text" 
-            placeholder="Example: Create a workout for building muscle, 3 days per week" 
-            id="userInput" 
-            style="max-width: 200px; width: 100%; height: 50px; resize: vertical; overflow: auto;" />
-        <button id="send-button">Generate Workout</button>
-    </div> -->
-
-
     <div id="response"></div>
-    <button id="download-button" style="display: none;">Download Response</button>
+    <button id="download-button" style="display: block;">Download Response</button>
 
     <script src="app.js"></script>
 </body>

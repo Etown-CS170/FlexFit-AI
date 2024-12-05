@@ -40,16 +40,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 messages: [
                     {
                         role: 'system',
-                        content: 'Please provide specific suggestions for improvement while maintaining a professional tone. do not mention that you are professional tone. You are a workout trainer, based on how intense the user specifies, generate workout plans. use markdown format when generating responses, IF default medium is the intensity, mention that it.'
+                        content: 'DO NOT USE MARKDOWN FORMAT. If the prompt has nothing to do with a workout, muscles, or physical activity, mention that to the user and do not make a schedule or workout suggestions. Please provide a workout schedule in HTML format in a grid or table(e.g., using <h2>, <div>, <p>, etc.) without asking if the workout is good. When giving workouts with weights or bands, add the pounds, Have a decription column, sets and reps, and workout name atleast when creating the tables, do not put data that should be in one box or column that belongs in another. Make sure to center the tables. You are a workout trainer, based on how intense the user specifies, generate workout plans. If default medium is the intensity, mention that it. If High intensity, make the workout very very very VERY intense with many different workouts. Use <h2> for main headings. Use <b> to bold not *. DO NOT USE * in the response. Use <h4> for smaller headings like days or days of the week.'
                     },
                     {
                         role: 'user',
                         content: prompt
                     }
                 ],
-                model: 'llama-3.2-3b-instruct',
+                model: 'meta-llama-3.1-8b-instruct',
                 temperature: 0.1,
-                max_tokens: 2000,
+                max_tokens: 10000,
                 stream: false
             };
             
@@ -82,19 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Simple Markdown to HTML converter
-    function markdownToHtml(markdown) {// AI made the conversion 
-        return markdown
-            .replace(/(\*\*|__)(.*?)\1/g, '<strong>$2</strong>') // Bold
-            .replace(/(\*|_)(.*?)\1/g, '<em>$2</em>') // Italic
-            .replace(/`(.*?)`/g, '<code>$1</code>') // Inline code
-            .replace(/~~(.*?)~~/g, '<del>$1</del>') // Strikethrough
-            .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
-            .replace(/\[.*?\]\(.*?\)/g, '') // Remove links
-            .replace(/#{1,6}\s+(.*)/g, (match, p1) => `<h${match.length}>${p1}</h${match.length}>`) // Headers
-            .replace(/\n/g, '<br>'); // New lines to <br>
-    }
-
     sendButton.addEventListener('click', async function() {
         sendButton.disabled = true;
         sendButton.textContent = 'Processing...';
@@ -104,38 +91,55 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create the user message and add it to the conversation history
         const userMessage = `Intensity Level: ${selectedIntensity}\nUser Input: ${userInput.value}`;
         conversationHistory.push(userMessage); // Add user message to history
-
         // Construct the prompt from the conversation history
-        const prompt = conversationHistory.join('\n') + '\n\nPlease provide a workout schedule without asking if the workout is good. You are a workout trainer, based on how intense the user specifies, generate workout plans. Use markdown format when generating responses and display the schedule in a grid layout or a nice table. IF default medium is the intensity, mention that it.';
+        const prompt = conversationHistory.join('\n') + '\n\n DO NOT USE MARKDOWN FORMAT. If the prompt has nothing to do with a workout, muscles, or physical activity, mention that to the user and do not make a schedule or workout suggestions. Please provide a workout schedule in HTML format in a grid or table(e.g., using <h2>, <div>, <p>, etc.) without asking if the workout is good. When giving workouts with weights or bands, add the pounds, Have a decription column, sets and reps, and workout name atleast when creating the tables, do not put data that should be in one box or column that belongs in another. Make sure to center the tables. You are a workout trainer, based on how intense the user specifies, generate workout plans. If default medium is the intensity, mention that it. If High intensity, make the workout very very very VERY intense with many different workouts. Use <h2> for main headings. Use <b> to bold not *. DO NOT USE * in the response. Use <h4> for smaller headings like days or days of the week.';
 
         const aiResponse = await generateAIResponse(prompt);
         
         // Add AI response to conversation history
         conversationHistory.push(aiResponse);
         
-        // Convert Markdown to HTML for display
-        const formattedResponse = `<h2>Generated Workout Plan</h2>
-        <div>${markdownToHtml(aiResponse)}</div>`; // Convert Markdown to HTML using the custom function
+        // Directly set the AI response as HTML
+        resumePreview.innerHTML = aiResponse;
         
-        resumePreview.innerHTML = formattedResponse; // Use innerHTML to set formatted response
-        
+        // Ensure the download button has the correct response
         downloadButton.style.display = 'block';
-        downloadButton.dataset.response = aiResponse;
+        downloadButton.dataset.response = aiResponse; // Store the response for PDF download
         
         sendButton.disabled = false;
         sendButton.textContent = 'Send to AI';
     });
 
     downloadButton.addEventListener('click', function() {
-        const responseText = downloadButton.dataset.response;
-        //const cleanedText = responseText; 
-        const { jsPDF } = window.jspdf;
+        const responseText = downloadButton.dataset.response; // Get the response from the dataset
+        if (!responseText) {
+            console.error('No response text available for download.'); // Check if responseText is empty
+            return; // Exit if there's no response
+        }
+        
+        const { jsPDF } = window.jspdf; // Ensure jsPDF is available
+        if (!jsPDF) {
+            console.error('jsPDF is not loaded.'); // Check if jsPDF is loaded
+            return; // Exit if jsPDF is not available
+        }
+        
         const doc = new jsPDF();
-        
-        
+
         // Set font size for better readability
         doc.setFontSize(12); // Adjust font size as needed
-        doc.text(responseText, 10, 10, { maxWidth: 190 }); // Set maxWidth to wrap text
-        doc.save('ai_response.pdf'); // Name of the downloaded PDF file
+
+        // Use the HTML content directly for PDF generation
+        const htmlContent = responseText;
+
+        // Convert HTML to PDF
+        doc.html(htmlContent, {
+            callback: function (doc) {
+                doc.save('ai_response.pdf'); // Name of the downloaded PDF file
+            },
+            x: 10,
+            y: 10,
+            width: 190, // Adjust width as needed
+            windowWidth: 650 // Adjust window width for better rendering
+        });
     });
 });

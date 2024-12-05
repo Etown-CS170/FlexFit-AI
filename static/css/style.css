@@ -66,16 +66,33 @@ html,body{
     display:block;
     box-sizing: border-box;
     overflow: auto;
-    background-color: rgb(255, 169, 169);
-    background-position: -55px 0;
+    /*background-color: rgb(255, 169, 169);*/
+    background-image: url(background.png);
     background-repeat: repeat;
-    background-blend-mode: ;
+    background-size: 100%;
     text-align: center;
     
 }
+h3{
+    color:#0056b3;
+    font-size: 2em;
+    font-weight: bolder;
+    font-family: 'Roboto', sans-serif;
+    background-color: black;
+}
+h4{
+    display: block;
+    font-size: 1em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
 
 h2{
-    color:rgb(63, 255, 137)
+    color:rgb(36, 51, 59)
 }
 a{
     color: #002aff;
