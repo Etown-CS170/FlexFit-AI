@@ -6,21 +6,25 @@
 - open index.html
 - Ready to use
 
-Prompt #1: High intensity
+
+Prompt #1: Default
+Want to lose 10 pounds
+
+refresh page
+
+Prompt #2: High intensity
 i am a wrestler wanting to improve my agility during matches
 
-Prompt #2: High Inensity
+Prompt #3: High Inensity
 for the weighted workouts, how much weight should i use if i weigh 150 pounds
 
 refresh page:
 
-Prompt #3: low intensity 
+Prompt #4: low intensity 
 workout plan for an old person who just wants to stay fit
 
-refresh page
 
-Prompt #4: Default
-Want to lose 10 pounds
+
 
 
 
